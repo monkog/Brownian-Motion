@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using AForge.Math;
 using OxyPlot;
 
 namespace Brownian_Motion.ViewModel
@@ -11,9 +12,15 @@ namespace Brownian_Motion.ViewModel
 
         private double _d;
         private int _n;
+        private int _n2;
+        private double _h;
+
         private ICommand _brownianMovementsCommand;
+        private ICommand _brownianFractionalMovementsCommand;
+
         private ObservableCollection<DataPoint> _brownianMovement2DPoints;
         private ObservableCollection<DataPoint> _brownianMovementPoints;
+        private ObservableCollection<DataPoint> _brownianFractionalMovementPoints;
 
         #endregion Private Members
 
@@ -34,6 +41,20 @@ namespace Brownian_Motion.ViewModel
         }
 
         /// <summary>
+        /// Gets or sets the Hurst parameter.
+        /// </summary>
+        public double H
+        {
+            get { return _h; }
+            set
+            {
+                if (_h == value) return;
+                _h = value;
+                OnPropertyChanged("H");
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the number of samples.
         /// </summary>
         public int N
@@ -44,6 +65,20 @@ namespace Brownian_Motion.ViewModel
                 if (_n == value) return;
                 _n = value;
                 OnPropertyChanged("N");
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the number of samples for fractional Brownian movement.
+        /// </summary>
+        public int N2
+        {
+            get { return _n2; }
+            set
+            {
+                if (_n2 == value) return;
+                _n2 = value;
+                OnPropertyChanged("N2");
             }
         }
 
@@ -75,7 +110,23 @@ namespace Brownian_Motion.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets or sets the brownian fractional movement points.
+        /// </summary>
+        public ObservableCollection<DataPoint> BrownianFractionalMovementPoints
+        {
+            get { return _brownianFractionalMovementPoints; }
+            set
+            {
+                if (_brownianFractionalMovementPoints == value) return;
+                _brownianFractionalMovementPoints = value;
+                OnPropertyChanged("BrownianFractionalMovementPoints");
+            }
+        }
+
         public ICommand BrownianMovementsCommand { get { return _brownianMovementsCommand ?? (_brownianMovementsCommand = new DelegateCommand(BrownianMovements)); } }
+
+        public ICommand BrownianFractionalMovementsCommand { get { return _brownianFractionalMovementsCommand ?? (_brownianFractionalMovementsCommand = new DelegateCommand(BrownianFractionalMovements)); } }
 
         #endregion Public Properties
 
@@ -85,12 +136,56 @@ namespace Brownian_Motion.ViewModel
         {
             D = 4.2192e-013;
             N = 1000;
+            N2 = 13;
+            H = 0.9;
             BrownianMovements(null);
+            BrownianFractionalMovements(null);
         }
 
         #endregion Constructors
 
         #region Private Methods
+
+        private void BrownianFractionalMovements(object param)
+        {
+            BrownianFractionalMovementPoints = new ObservableCollection<DataPoint>();
+            var n = (int)Math.Pow(2, Math.Min(13, N2));
+            var r = new double[n + 1];
+            var rx = new Complex[2 * n];
+            r[0] = 1;
+            rx[0].Re = 1;
+
+            for (int i = 1; i <= n; i++)
+            {
+                r[i] = 0.5 * (Math.Pow(i + 1, 2 * H) - 2 * Math.Pow(i, 2 * H) + Math.Pow(i - 1, 2 * H));
+                rx[i].Re = r[i];
+            }
+
+            var index = r.Length;
+            for (int i = r.Length - 2; i >= 1; i--)
+                rx[index++].Re = r[i];
+
+            FourierTransform.FFT(rx, FourierTransform.Direction.Forward);
+
+            // Eigenvalues
+            var lambda = new double[rx.Length];
+            for (int i = 0; i < rx.Length; i++)
+                lambda[i] = rx[i].Re / (2 * n);
+
+            var ww = new Complex[2 * n];
+
+            for (int i = 0; i < lambda.Length; i++)
+                ww[i] = Math.Sqrt(lambda[i]) * new Complex(NormalRandom.GetNormal(), NormalRandom.GetNormal());
+            FourierTransform.FFT(ww, FourierTransform.Direction.Forward);
+
+            var w = new double[n + 1];
+            for (int i = 0; i < n + 1; i++)
+                w[i] = ww[i].Re;
+
+            w = MathFunctions.CummulatedSum(w);
+            for (int i = 0; i < w.Length; i++)
+                BrownianFractionalMovementPoints.Add(new DataPoint((double)i / n, Math.Pow(n, -H) * w[i]));
+        }
 
         private void BrownianMovements(object param)
         {

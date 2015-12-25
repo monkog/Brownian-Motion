@@ -2,6 +2,11 @@
 {
     public static class MathFunctions
     {
+        #region Private Methods
+
+
+        #endregion Private Methods
+
         #region Public Methods
 
         /// <summary>
