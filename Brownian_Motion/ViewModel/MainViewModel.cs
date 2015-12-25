@@ -50,6 +50,8 @@ namespace Brownian_Motion.ViewModel
             {
                 if (_h == value) return;
                 _h = value;
+                if (_h <= 0) _h = 0.1;
+                if (_h >= 1) _h = 0.9;
                 OnPropertyChanged("H");
             }
         }
@@ -78,6 +80,8 @@ namespace Brownian_Motion.ViewModel
             {
                 if (_n2 == value) return;
                 _n2 = value;
+                if (_n2 <= 0) _n2 = 1;
+                if (_n2 >= 15) _n2 = 14;
                 OnPropertyChanged("N2");
             }
         }
