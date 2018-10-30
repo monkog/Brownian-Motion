@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace Brownian_Motion.ViewModel
+namespace Brownian_Motion.Helpers
 {
     public class DelegateCommand : ICommand
     {
@@ -33,9 +33,7 @@ namespace Brownian_Motion.ViewModel
 
         public void RaiseCanExecuteChanged()
         {
-            if (CanExecuteChanged != null)
-                CanExecuteChanged(this, EventArgs.Empty);
+	        CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }
-

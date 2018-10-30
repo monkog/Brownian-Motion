@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using AForge.Math;
+using Brownian_Motion.Helpers;
 using OxyPlot;
 
 namespace Brownian_Motion.ViewModel
@@ -11,15 +12,21 @@ namespace Brownian_Motion.ViewModel
         #region Private Members
 
         private double _d;
+
         private int _n;
+
         private int _n2;
+
         private double _h;
 
         private ICommand _brownianMovementsCommand;
+
         private ICommand _brownianFractionalMovementsCommand;
 
         private ObservableCollection<DataPoint> _brownianMovement2DPoints;
+
         private ObservableCollection<DataPoint> _brownianMovementPoints;
+
         private ObservableCollection<DataPoint> _brownianFractionalMovementPoints;
 
         #endregion Private Members
@@ -36,7 +43,7 @@ namespace Brownian_Motion.ViewModel
             {
                 if (_d == value) return;
                 _d = value;
-                OnPropertyChanged("D");
+                OnPropertyChanged();
             }
         }
 
@@ -52,7 +59,7 @@ namespace Brownian_Motion.ViewModel
                 _h = value;
                 if (_h <= 0) _h = 0.1;
                 if (_h >= 1) _h = 0.9;
-                OnPropertyChanged("H");
+                OnPropertyChanged();
             }
         }
 
@@ -66,7 +73,7 @@ namespace Brownian_Motion.ViewModel
             {
                 if (_n == value) return;
                 _n = value;
-                OnPropertyChanged("N");
+                OnPropertyChanged();
             }
         }
 
@@ -82,7 +89,7 @@ namespace Brownian_Motion.ViewModel
                 _n2 = value;
                 if (_n2 <= 0) _n2 = 1;
                 if (_n2 >= 15) _n2 = 14;
-                OnPropertyChanged("N2");
+                OnPropertyChanged();
             }
         }
 
@@ -96,7 +103,7 @@ namespace Brownian_Motion.ViewModel
             {
                 if (_brownianMovement2DPoints == value) return;
                 _brownianMovement2DPoints = value;
-                OnPropertyChanged("BrownianMovement2DPoints");
+                OnPropertyChanged();
             }
         }
 
@@ -110,7 +117,7 @@ namespace Brownian_Motion.ViewModel
             {
                 if (_brownianMovementPoints == value) return;
                 _brownianMovementPoints = value;
-                OnPropertyChanged("BrownianMovementPoints");
+                OnPropertyChanged();
             }
         }
 
@@ -124,7 +131,7 @@ namespace Brownian_Motion.ViewModel
             {
                 if (_brownianFractionalMovementPoints == value) return;
                 _brownianFractionalMovementPoints = value;
-                OnPropertyChanged("BrownianFractionalMovementPoints");
+                OnPropertyChanged();
             }
         }
 
@@ -142,15 +149,15 @@ namespace Brownian_Motion.ViewModel
             N = 1000;
             N2 = 13;
             H = 0.9;
-            BrownianMovements(null);
-            BrownianFractionalMovements(null);
+            BrownianMovements();
+            BrownianFractionalMovements();
         }
 
         #endregion Constructors
 
         #region Private Methods
 
-        private void BrownianFractionalMovements(object param)
+        private void BrownianFractionalMovements(object param = null)
         {
             BrownianFractionalMovementPoints = new ObservableCollection<DataPoint>();
             var n = (int)Math.Pow(2, Math.Min(13, N2));
@@ -186,12 +193,12 @@ namespace Brownian_Motion.ViewModel
             for (int i = 0; i < n + 1; i++)
                 w[i] = ww[i].Re;
 
-            w = MathFunctions.CummulatedSum(w);
+            w = w.CumulatedSum();
             for (int i = 0; i < w.Length; i++)
                 BrownianFractionalMovementPoints.Add(new DataPoint((double)i / n, Math.Pow(n, -H) * w[i]));
         }
 
-        private void BrownianMovements(object param)
+        private void BrownianMovements(object param = null)
         {
             BrownianMovement2DPoints = new ObservableCollection<DataPoint>();
             BrownianMovementPoints = new ObservableCollection<DataPoint>();
@@ -210,8 +217,8 @@ namespace Brownian_Motion.ViewModel
                 dy[i] = k * NormalRandom.GetNormal();
             }
 
-            var x = MathFunctions.CummulatedSum(dx);
-            var y = MathFunctions.CummulatedSum(dy);
+            var x = dx.CumulatedSum();
+            var y = dy.CumulatedSum();
 
             var squaredDisplacement = new double[N];
             for (int i = 0; i < N; i++)
@@ -227,4 +234,3 @@ namespace Brownian_Motion.ViewModel
         #endregion Private Methods
     }
 }
-
