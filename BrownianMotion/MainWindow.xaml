@@ -39,9 +39,9 @@
 				<TextBlock Grid.Row="0" Grid.Column="1" Text="Brownian Movement 1D" FontSize="18" FontWeight="Black" HorizontalAlignment="Center"/>
 				<StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center">
 					<TextBlock Text="Diffusion coefficient: "/>
-					<TextBox Text="{Binding D}"/>
+					<TextBox Text="{Binding Motion.D}"/>
 					<TextBlock Text="Number of Samples: "/>
-					<TextBox Text="{Binding N}"/>
+					<TextBox Text="{Binding Motion.N}"/>
 					<Button Content="Refresh" Command="{Binding BrownianMovementsCommand}"/>
 				</StackPanel>
 
@@ -50,7 +50,7 @@
 						<oxy:LinearAxis IsZoomEnabled="False"/>
 					</oxy:Plot.Axes>
 					<oxy:Plot.Series>
-						<oxy:LineSeries ItemsSource="{Binding BrownianMovement2DPoints}" Title="Track of the single particle"/>
+						<oxy:LineSeries ItemsSource="{Binding Motion.BrownianMovement2DPoints}" Title="Track of the single particle"/>
 					</oxy:Plot.Series>
 				</oxy:Plot>
 				<oxy:Plot Grid.Row="2" Grid.Column="1" Width="800" Height="750">
@@ -58,7 +58,7 @@
 						<oxy:LinearAxis IsZoomEnabled="False"/>
 					</oxy:Plot.Axes>
 					<oxy:Plot.Series>
-						<oxy:LineSeries ItemsSource="{Binding BrownianMovementPoints}" Title="Squared displacement"/>
+						<oxy:LineSeries ItemsSource="{Binding Motion.BrownianMovementPoints}" Title="Squared displacement"/>
 					</oxy:Plot.Series>
 				</oxy:Plot>
 
@@ -75,9 +75,9 @@
 				<TextBlock Grid.Row="0" Text="Brownian Fractional Movement" FontSize="18" FontWeight="Black" HorizontalAlignment="Center"/>
 				<StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center">
 					<TextBlock Text="Hurst parameter: "/>
-					<TextBox Text="{Binding H}"/>
+					<TextBox Text="{Binding Motion.H}"/>
 					<TextBlock Text="Number of Samples (2^n), (max: 14): "/>
-					<TextBox Text="{Binding N2}"/>
+					<TextBox Text="{Binding Motion.N2}"/>
 					<Button Content="Refresh" Command="{Binding BrownianFractionalMovementsCommand}"/>
 				</StackPanel>
 
@@ -86,7 +86,7 @@
 						<oxy:LinearAxis IsZoomEnabled="False"/>
 					</oxy:Plot.Axes>
 					<oxy:Plot.Series>
-						<oxy:LineSeries ItemsSource="{Binding BrownianFractionalMovementPoints}" Title="Squared displacement"/>
+						<oxy:LineSeries ItemsSource="{Binding Motion.BrownianFractionalMovementPoints}" Title="Squared displacement"/>
 					</oxy:Plot.Series>
 				</oxy:Plot>
 
