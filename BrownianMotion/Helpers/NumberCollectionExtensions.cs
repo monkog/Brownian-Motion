@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Brownian_Motion.Helpers
+namespace BrownianMotion.Helpers
 {
     public static class NumberCollectionExtensions
     {

@@ -1,6 +1,6 @@
-﻿using Brownian_Motion.ViewModel;
+﻿using BrownianMotion.ViewModel;
 
-namespace Brownian_Motion
+namespace BrownianMotion
 {
     public partial class MainWindow
     {

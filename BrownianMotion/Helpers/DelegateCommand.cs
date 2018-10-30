@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace Brownian_Motion.Helpers
+namespace BrownianMotion.Helpers
 {
     public class DelegateCommand : ICommand
     {

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Brownian_Motion.ViewModel
+namespace BrownianMotion.ViewModel
 {
 	public class ViewModelBase : INotifyPropertyChanged
 	{

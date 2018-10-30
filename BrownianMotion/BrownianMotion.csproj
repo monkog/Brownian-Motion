@@ -7,8 +7,8 @@
     <ProjectGuid>{C9AAAC3C-4C1F-4251-968A-753A9EC02BBA}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Brownian_Motion</RootNamespace>
-    <AssemblyName>Brownian_Motion</AssemblyName>
+    <RootNamespace>BrownianMotion</RootNamespace>
+    <AssemblyName>BrownianMotion</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

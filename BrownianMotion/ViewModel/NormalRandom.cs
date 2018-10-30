@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Brownian_Motion.ViewModel
+namespace BrownianMotion.ViewModel
 {
 	public class NormalRandom
 	{

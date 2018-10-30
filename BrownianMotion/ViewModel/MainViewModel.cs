@@ -2,10 +2,10 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using AForge.Math;
-using Brownian_Motion.Helpers;
+using BrownianMotion.Helpers;
 using OxyPlot;
 
-namespace Brownian_Motion.ViewModel
+namespace BrownianMotion.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
