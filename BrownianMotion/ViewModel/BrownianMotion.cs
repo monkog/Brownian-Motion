@@ -130,11 +130,15 @@ namespace BrownianMotion.ViewModel
 			N = 1000;
 			N2 = 13;
 			H = 0.9;
+
+			BrownianMovementPoints = new ObservableCollection<DataPoint>();
+			BrownianMovement2DPoints = new ObservableCollection<DataPoint>();
+			BrownianFractionalMovementPoints = new ObservableCollection<DataPoint>();
 		}
 
 		public void BrownianFractionalMovements()
 		{
-			BrownianFractionalMovementPoints = new ObservableCollection<DataPoint>();
+			BrownianFractionalMovementPoints.Clear();
 			var n = (int)Math.Pow(2, Math.Min(13, N2));
 			var r = new double[n + 1];
 			var rx = new Complex[2 * n];
@@ -175,8 +179,8 @@ namespace BrownianMotion.ViewModel
 
 		public void BrownianMovements()
 		{
-			BrownianMovement2DPoints = new ObservableCollection<DataPoint>();
-			BrownianMovementPoints = new ObservableCollection<DataPoint>();
+			BrownianMovement2DPoints.Clear();
+			BrownianMovementPoints.Clear();
 			var tau = 0.1;
 
 			var time = new double[N];
