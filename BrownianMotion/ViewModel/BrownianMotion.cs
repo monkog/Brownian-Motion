@@ -181,6 +181,7 @@ namespace BrownianMotion.ViewModel
 		{
 			BrownianMovement2DPoints.Clear();
 			BrownianMovementPoints.Clear();
+
 			var tau = 0.1;
 
 			var time = new double[N];
